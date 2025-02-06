@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { Plus, X, Check } from "lucide-react";
+import { X, Check } from "lucide-react";
+import MainLiftSelector, { selection } from "./main-lift-selector";
 
 
 const tableHeaders = ["Exercise", "Weight", "Reps", "Sets", "Actions"];
@@ -9,24 +10,20 @@ const SessionForm: React.FC = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
 
   const [exercise, setExercise] = useState("");
-  const [weight, setWeight] = useState("");
-  const [reps, setReps] = useState("");
-  const [sets, setSets] = useState("");
+  const [weight, setWeight] = useState<number>(0);
+  const [reps, setReps] = useState<number>(0);
+  const [sets, setSets] = useState<number>(0);
   const [sessions, setSessions] = useState<any[]>([])
+  const [volume, setVolume]= useState<number>(0);
   const [showRows , setShowRows] = useState(true);
 
-  const addSession = (e): void => {
-    const id = Math.floor(Math.random() * 1000) + 1;
-    const newSession = { id, ...e };
-    setSessions([...sessions, newSession]);
-  };
 
   const outputSessions = () => {
     return (
       <div className="overflow-x-auto">
         <table className="w-full min-w-full table-auto">
         <thead>
-                <tr className="bg-gray-50/50">
+                <tr className="bg-indigo-300/100">
                   {tableHeaders.map(
                     (header, index) => (
                       <th
@@ -48,7 +45,6 @@ const SessionForm: React.FC = () => {
           className="group hover:bg-gray-50/50 transition-colors duration-200"
         >
           <td
-            key={++i}
             className="px-6 py-4 first:pl-8 last:pr-8 text-sm text-gray-600 group-hover:text-gray-900 transition-colors duration-200"
           >
             <p
@@ -56,7 +52,6 @@ const SessionForm: React.FC = () => {
             >{session.exercise}</p>
           </td>
           <td
-            key={++i}
             className="px-6 py-4 first:pl-8 last:pr-8 text-sm text-gray-600 group-hover:text-gray-900 transition-colors duration-200"
           >
             <p
@@ -64,7 +59,6 @@ const SessionForm: React.FC = () => {
             >{session.weight}</p>
           </td>
           <td
-            key={++i}
             className="px-6 py-4 first:pl-8 last:pr-8 text-sm text-gray-600 group-hover:text-gray-900 transition-colors duration-200"
           >
             <p
@@ -72,7 +66,6 @@ const SessionForm: React.FC = () => {
             >{session.reps}</p>
           </td>
           <td
-            key={++i}
             className="px-6 py-4 first:pl-8 last:pr-8 text-sm text-gray-600 group-hover:text-gray-900 transition-colors duration-200"
           >
             <p
@@ -81,11 +74,10 @@ const SessionForm: React.FC = () => {
             {session.sets}
             </p>
           </td>
-          <td colSpan={2} className="flex rounded-lg p-2.5">
+          <td colSpan={2} className="rounded-lg p-2.5">
             <X
               onClick={() => deleteSession(session.id)}
-              className="cursor-pointer"
-              color="#374151"
+              className="cursor-pointer text-red-600"
             />
           </td>
         </tr>
@@ -97,6 +89,10 @@ const SessionForm: React.FC = () => {
     );
   };
 
+  const onChangeSkillLift  = (e : selection) => {
+    console.log(e);
+  }
+
   const saveSession = (e: any) => {
     e.preventDefault();
     const id = Math.floor(Math.random() * 1000) + 1;
@@ -107,21 +103,27 @@ const SessionForm: React.FC = () => {
       reps: reps,
       sets: sets,
      };
+    setVolume(volume + (weight*reps*sets))
     setSessions([...sessions, newSession ]);
     setExercise("");
-    setWeight("");
-    setReps("");
-    setSets("");
+    setWeight(0);
+    setReps(0);
+    setSets(0);
   };
 
-  const deleteSession = (id: string) => setSessions(sessions.filter((session) => session.id !== id));
+  const deleteSession = (_id: string) => {
+    const remainingSessions = sessions.filter((session) => session.id !== _id);
+    const calcVolume = remainingSessions.map((s) => s.weight*s.reps*s.sets).reduce((acc, session) => acc+= session, 0);
+    setVolume(calcVolume);
+    setSessions([...remainingSessions]);
+  }
 
   const clearEntries = () => {
     setSessions([...sessions]);
     setExercise("");
-    setWeight("");
-    setReps("");
-    setSets("");
+    setWeight(0);
+    setReps(0);
+    setSets(0);
   }
 
 
@@ -145,19 +147,19 @@ const SessionForm: React.FC = () => {
               // required
               placeholder="Exercise"
               value={exercise}
-              onChange={(e) => setExercise(e.target.value)}
+              onChange={(e) => e.target.value ? setExercise(e.target.value) : e.target.value = '0'}
             />
           </td>
           <td
             className="px-6 py-4 first:pl-8 last:pr-8 text-sm text-gray-600 group-hover:text-gray-900 transition-colors duration-200"
           >
             <input
-              type="text"
+              type="number"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               // required
               placeholder="Weight"
               value={weight}
-              onChange={(e) => setWeight(e.target.value)}
+              onChange={(e) => e.target.value ? setWeight(parseInt(e.target.value)) : e.target.value = '0'}
             />
           </td>
           <td
@@ -169,7 +171,7 @@ const SessionForm: React.FC = () => {
               // required
               placeholder="Reps"
               value={reps}
-              onChange={(e) => setReps(e.target.value)}
+              onChange={(e) => e.target.value ? setReps(parseInt(e.target.value)) : e.target.value = '0'}
             />
           </td>
           <td
@@ -181,16 +183,19 @@ const SessionForm: React.FC = () => {
               // required
               placeholder="Sets"
               value={sets}
-              onChange={(e) => setSets(e.target.value)}
+              onChange={(e) => e.target.value ? setSets(parseInt(e.target.value)) : e.target.value = '0'}
             />
           </td>
-          <td colSpan={2} className="flex rounded-lg p-2.5">
+          <td className="rounded-lg p-2.5">
             <X
               onClick={() => clearEntries()}
-              className="cursor-pointer"
+              className="cursor-pointer text-red-600"
+              
             />
-            <button type="submit">
-              <Check className="cursor-pointer"/>
+          </td>
+          <td className="rounded-lg p-2.5">
+            <button type="submit" className="block">
+              <Check className="cursor-pointer text-green-600"/>
             </button>
           </td>
           </>
@@ -203,37 +208,44 @@ const SessionForm: React.FC = () => {
       <div className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-lg shadow-sm border border-gray-200">
         <span className="text-gray-600">{formattedDate}</span>
       </div>
-      <div className="flex justify-between items-center">
-        <div>
-          <h2 className="text-3xl font-bold text-gray-900">Data Table</h2>
-          <p className="mt-2 text-sm text-gray-500">
-            Manage and view your data entries
-          </p>
-        </div>
-        <button
-          onClick={addSession}
-          className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-lg 
-                     hover:bg-indigo-700 active:bg-indigo-800 transition-all duration-200 
-                     shadow-lg hover:shadow-xl hover:-translate-y-0.5"
-          type="button"
-        >
-          <Plus size={18} className="stroke-2" />
-          <span className="font-semibold">Add New Row</span>
-        </button>
-      </div>
-
       <div className="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-100">
         <div className="overflow-x-auto">
+        <table className="w-full min-w-full table-auto">
+              <thead>
+                <tr className="bg-indigo-100">
+                      <th
+                        className="px-6 py-4 first:pl-8 last:pr-8"
+                        colSpan={6}
+                      >
+                        <div className="flex items-baseline gap-2 text-sm font-semibold text-gray-900">
+                          <>Skill Lift: <MainLiftSelector onChangeSkillLift={onChangeSkillLift}/></>
+                        </div>
+                        <div className="flex items-baseline gap-2 text-sm font-semibold text-gray-900">
+                          <>Skill Lift: <MainLiftSelector onChangeSkillLift={onChangeSkillLift}/></>
+                        </div>
+                        <div className="flex items-baseline gap-2 text-sm font-semibold text-gray-900">
+                          <>Skill Lift: <MainLiftSelector onChangeSkillLift={onChangeSkillLift}/></>
+                        </div>
+                      </th>
+                </tr>
+
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                <tr className="group hover:bg-gray-50/50 transition-colors duration-200">
+                  {showRows && outputRows()}
+                  </tr>
+              </tbody>
+            </table>
           <form className="w-full" onSubmit={saveSession}>
             <table className="w-full min-w-full table-auto">
               <thead>
                 <tr className="bg-indigo-100">
                       <th
                         className="px-6 py-4 first:pl-8 last:pr-8"
-                        colSpan={5}
+                        colSpan={6}
                       >
                         <div className="flex items-center gap-2 text-sm font-semibold text-gray-900">
-                          Create Session
+                          Accessory Session(s)
                         </div>
                       </th>
                 </tr>
@@ -250,11 +262,12 @@ const SessionForm: React.FC = () => {
         {sessions.length === 0 && (
           <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
             <p className="text-gray-500 text-lg font-medium">
-              No data available
+            Accessory Session(s) saved so far
             </p>
             <p className="mt-1 text-sm text-gray-400">
-              Click "Add New Row" to get started
+              Add a accessory session above to get started
             </p>
+            <p className="p-2.5 px-8 py-4 text-sm text-gray-600 self-start">Training Volume: {volume}</p>
           </div>
         )}
       </div>
