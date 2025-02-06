@@ -1,53 +1,30 @@
 'use client'
 
-import { useState } from 'react'
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react'
 import { ChevronUpDownIcon } from '@heroicons/react/16/solid'
 
-const options = [
-  {
-    id: 0,
-    name: 'Strength Lift (BB)',
-  },
-  {
-    id: 1,
-    name: 'Bench Press',
-  },
-  {
-    id: 2,
-    name: 'Deadlift',
-  },
-  {
-    id: 3,
-    name: 'Military Press',
-  },
-  {
-    id: 4,
-    name: 'Squat',
-  },
-]
 export type selection = {
   id: number,
   name: string,
 }
 type Props = {
   onChangeSkillLift: (e :selection) => void;
+  selectedSkillOption: selection;
+  skillOptions: selection[];
 }
 
 export default function MainLiftSelector(props: Props) {
 
-  const [selected, setSelected] = useState(options[0])
   const updateSelected = (e: selection) => {
-    setSelected(e);
     props.onChangeSkillLift(e);
   }
 
   return (
-    <Listbox value={selected} onChange={(e) => updateSelected(e)}>
+    <Listbox value={props.selectedSkillOption} onChange={(e) => updateSelected(e)}>
       <div className="relative mt-2 min-w-[200px]">
         <ListboxButton className="grid w-full cursor-default grid-cols-1 rounded-md bg-white py-1.5 pr-2 pl-3 text-left text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
           <span className="col-start-1 row-start-1 flex items-center gap-3 pr-6">
-            <span className="block truncate">{selected.name}</span>
+            <span className="block truncate">{props.selectedSkillOption.name}</span>
           </span>
           <ChevronUpDownIcon
             aria-hidden="true"
@@ -59,7 +36,7 @@ export default function MainLiftSelector(props: Props) {
           transition
           className="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white py-1 text-base ring-1 shadow-lg ring-black/5 focus:outline-hidden data-leave:transition data-leave:duration-100 data-leave:ease-in data-closed:data-leave:opacity-0 sm:text-sm"
         >
-          {options.map((option) => (
+          {props.skillOptions.map((option) => (
             <ListboxOption
               key={option.id}
               value={option}

@@ -16,8 +16,30 @@ const SessionForm: React.FC = () => {
   const [sessions, setSessions] = useState<any[]>([])
   const [volume, setVolume]= useState<number>(0);
   const [showRows , setShowRows] = useState(true);
+  const skillOptions = [
+    {
+      id: 0,
+      name: 'Strength Lift (BB)',
+    },
+    {
+      id: 1,
+      name: 'Bench Press',
+    },
+    {
+      id: 2,
+      name: 'Deadlift',
+    },
+    {
+      id: 3,
+      name: 'Military Press',
+    },
+    {
+      id: 4,
+      name: 'Squat',
+    },
+  ];
 
-
+  const [selectedSkillOption, setSelectedSkillOption] = useState (skillOptions[0])
   const outputSessions = () => {
     return (
       <div className="overflow-x-auto">
@@ -90,7 +112,7 @@ const SessionForm: React.FC = () => {
   };
 
   const onChangeSkillLift  = (e : selection) => {
-    console.log(e);
+    setSelectedSkillOption(e);
   }
 
   const saveSession = (e: any) => {
@@ -218,13 +240,7 @@ const SessionForm: React.FC = () => {
                         colSpan={6}
                       >
                         <div className="flex items-baseline gap-2 text-sm font-semibold text-gray-900">
-                          <>Skill Lift: <MainLiftSelector onChangeSkillLift={onChangeSkillLift}/></>
-                        </div>
-                        <div className="flex items-baseline gap-2 text-sm font-semibold text-gray-900">
-                          <>Skill Lift: <MainLiftSelector onChangeSkillLift={onChangeSkillLift}/></>
-                        </div>
-                        <div className="flex items-baseline gap-2 text-sm font-semibold text-gray-900">
-                          <>Skill Lift: <MainLiftSelector onChangeSkillLift={onChangeSkillLift}/></>
+                          <>Skill Lift: <MainLiftSelector onChangeSkillLift={onChangeSkillLift} selectedSkillOption={selectedSkillOption} skillOptions={skillOptions}/></>
                         </div>
                       </th>
                 </tr>
