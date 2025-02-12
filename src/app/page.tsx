@@ -5,7 +5,9 @@ const DataTable: React.FC = () => {
 
 
   return (
-      <SessionForm/>
+    <>
+    <SessionForm/>
+    </>
   );
 };
 
