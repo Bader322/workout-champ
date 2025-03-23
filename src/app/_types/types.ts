@@ -1,17 +1,22 @@
-import { store } from "@/redux/store"
-
-export interface session  {
-    _id: string;
-    exercise: string;
-    weight: number;
-    reps: number;
-    sets: number;
-    volume: number;
+export interface RootState {
+  sessions: session[];
+  skillLiftSelection?: SkillLiftSelection;
+  sessionDate?: string;
+  tempChoice: string;
 }
 
-export type SkillLiftSelection = {
-    id: number,
-    name: string,
-  }
+export interface session {
+  _id: string;
+  exercise: string;
+  weight: number;
+  reps: number;
+  sets: number;
+  volume: number;
+  date: string;
+  templateId: string;
+}
 
-export type RootState = ReturnType<typeof store.getState>;
+export interface SkillLiftSelection {
+  id: number;
+  name: string;
+}

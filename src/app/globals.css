@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+#loadingSpinner .fill-yellow-400 {
 
+    fill: #b4c6fc !important;
+}
 
-
+#datePicker {
+    max-width: 12rem;
+}

@@ -1,36 +1,45 @@
-
-import { ObjectId } from "bson";
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Document, Schema, Types } from "mongoose";
 export interface IProduct extends Document {
-    _id: ObjectId,
-    exercise: string,
-    weight: string,
-    reps: string,
-    sets: string,
-    volume: number
+  exercise: string;
+  weight: string;
+  reps: string;
+  sets: string;
+  volume: number;
+  date: string;
+  templateId?: Types.ObjectId;
 }
 
-const productSchema: Schema = new mongoose.Schema({
-    _id: {
-        type: ObjectId
-    },
+const productSchema: Schema = new mongoose.Schema(
+  {
     exercise: {
-        type: String,
+      type: String,
     },
     weight: {
-        type: String,
+      type: String,
     },
     reps: {
-        type: String,
+      type: String,
     },
     sets: {
-        type: String,
+      type: String,
     },
     volume: {
-        type: String,
+      type: String,
     },
-});
+    date: {
+      type: String,
+    },
+    templateId: { type: Schema.Types.ObjectId, ref: "Template" },
+  },
+  {
+    timestamps: {
+      createdAt: "created_at",
+      updatedAt: "updated_at",
+    },
+  }
+);
 
-const Product = mongoose.models.Product || mongoose.model<IProduct>('Product', productSchema)
+const Product =
+  mongoose.models.Product || mongoose.model<IProduct>("Product", productSchema);
 
 export default Product;

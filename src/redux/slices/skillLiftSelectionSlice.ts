@@ -4,7 +4,7 @@ import { SkillLiftSelection } from "../../app/_types/types";
 
 const initialState : SkillLiftSelection = {
   id: 0,
-  name: "Strength Lift (BB)",
+  name: "Lift/Exercise",
 };
 
 const skillLiftSelectionSlice = createSlice({

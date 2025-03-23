@@ -1,8 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const flowbite = require("flowbite-react/tailwind");
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const withMT = require("@material-tailwind/react/utils/withMT");
 
-module.exports = {
+
+module.exports = withMT({
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -19,4 +22,4 @@ module.exports = {
   plugins: [
     flowbite.plugin(),
   ],
-};
+});
