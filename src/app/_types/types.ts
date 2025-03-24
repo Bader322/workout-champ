@@ -20,3 +20,10 @@ export interface SkillLiftSelection {
   id: number;
   name: string;
 }
+
+export interface template {
+  _id: string;
+  title: string;
+  description: string;
+  sessions: session[];
+}

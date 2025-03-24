@@ -1,18 +1,15 @@
 import dbConnect from "@/app/lib/mongo-connect";
 import Product from "@/app/models/Product";
+import Template from "@/app/models/Workout-Template";
 import { NextResponse, NextRequest } from "next/server";
-
-
-interface session {
-  _id: string;
-  exercise: string; 
-  weight: number;
-  reps: number;
-  sets: number;
-  volume: number;
-  date: string;
-}
-
+import _ from "lodash";
+import { ObjectId } from "bson";
+import { session } from "@/app/_types/types";
+import {
+  createMissingObjIds,
+  prepareTemplate,
+  findExistingSessions,
+} from "@/app/api/_shared";
 export async function GET(req: NextRequest) {
   await dbConnect();
   try {
@@ -57,18 +54,41 @@ export async function POST(req: NextRequest) {
         }
       );
     }
-    const existingIds = (await Product.find({
-      _id: {
-        $in: data.map((datum) => datum._id),
-      },
-    }).distinct("_id")).map((id) => id.toString()); 
+    createMissingObjIds(data);
+
+    const templateId: string =
+      _.first(data).templateId || new ObjectId().toString();
+
+    const existingTemplate = await Template.findOne({
+      _id: templateId,
+    });
+
+    let tempDoc;
+    if (!existingTemplate) {
+      const template = prepareTemplate(templateId, "tets", "description", data);
+      tempDoc = await Template.create(template);
+    }
+    const updatedDoc = await Template.findByIdAndUpdate(
+      templateId,
+      { sessions: data.map((datum) => datum._id) },
+      { new: true } // <- returns the updated document
+    );
+    const existingIds = (
+      await Product.find({
+        _id: {
+          $in: data.map((datum) => datum._id),
+        },
+      }).distinct("_id")
+    ).map((id) => id.toString());
+
     const newData = data.filter((datum) => !existingIds.includes(datum._id));
-    console.log(newData);
     newData.forEach(async (datum) => await Product.create(datum));
 
     return new NextResponse(
       JSON.stringify({
         message: "data added",
+        template: tempDoc || updatedDoc,
+        new_sessions: newData,
       }),
       {
         status: 200,

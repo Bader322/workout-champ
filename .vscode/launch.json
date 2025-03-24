@@ -17,6 +17,12 @@
             "request": "launch",
             "reAttach": true,
             "file": "${workspaceFolder}/index.html"
+        },
+        {
+            "name": "Next.js: debug server-side",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "npm run dev",
         }
     ]
 }
