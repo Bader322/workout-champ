@@ -1,5 +1,5 @@
 import dbConnect from "@/app/lib/mongo-connect";
-import Product from "@/app/models/Product";
+import Session from "@/app/models/Session";
 import Template from "@/app/models/Workout-Template";
 import { NextResponse, NextRequest } from "next/server";
 import _ from "lodash";
@@ -8,7 +8,6 @@ import { session } from "@/app/_types/types";
 import {
   createMissingObjIds,
   prepareTemplate,
-  findExistingSessions,
 } from "@/app/api/_shared";
 export async function GET(req: NextRequest) {
   await dbConnect();
@@ -22,12 +21,12 @@ export async function GET(req: NextRequest) {
         { status: 400 }
       );
     }
-    const products = await Product.find({
+    const sessions = await Session.find({
       date: {
         $eq: date,
       },
-    });
-    return NextResponse.json(products);
+    });sessions
+    return NextResponse.json(sessions);
   } catch (err) {
     if (err instanceof Error) {
       return NextResponse.json({ error: err.message });
@@ -74,7 +73,7 @@ export async function POST(req: NextRequest) {
       { new: true } // <- returns the updated document
     );
     const existingIds = (
-      await Product.find({
+      await Session.find({
         _id: {
           $in: data.map((datum) => datum._id),
         },
@@ -82,7 +81,7 @@ export async function POST(req: NextRequest) {
     ).map((id) => id.toString());
 
     const newData = data.filter((datum) => !existingIds.includes(datum._id));
-    newData.forEach(async (datum) => await Product.create(datum));
+    newData.forEach(async (datum) => await Session.create(datum));
 
     return new NextResponse(
       JSON.stringify({
@@ -115,10 +114,10 @@ export async function DELETE(req: NextRequest) {
 
   try {
     const { _id } = await req.json();
-    const products = await Product.findOneAndDelete({ _id });
-    if (!products) throw new Error("id given was not found");
+    const sessions = await Session.findOneAndDelete({ _id });
+    if (!sessions) throw new Error("id given was not found");
 
-    return NextResponse.json(products);
+    return NextResponse.json(sessions);
   } catch (err) {
     if (err instanceof Error) {
       return NextResponse.json({ error: err.message });

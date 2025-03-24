@@ -1,7 +1,6 @@
-import { session, template } from "@/app/_types/types";
+import { session } from "@/app/_types/types";
 import { ObjectId } from "bson";
 import _ from "lodash";
-import Product from "@/app/models/Product";
 
 export const isArray = (input: []) => {
   return _.isArray(input);

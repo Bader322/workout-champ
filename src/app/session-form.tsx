@@ -23,7 +23,7 @@ const SessionForm: React.FC = () => {
   }, [sessions]);
 
   const saveAllSessions = async () => {
-    const url = "http://localhost:3000/api/products";
+    const url = "http://localhost:3000/api/sessions";
     try {
       const response = await fetch(url, {
         method: "POST",

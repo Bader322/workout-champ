@@ -6,7 +6,7 @@ export const getSessionList = createAsyncThunk(
   "sessions/getSessionList",
   async (date: string) => {
     try {
-      const res = await axios.get("http://localhost:3000/api/products", {
+      const res = await axios.get("http://localhost:3000/api/sessions", {
         params: {
           date,
         },

@@ -1,5 +1,6 @@
 import mongoose, { Document, Schema, Types } from "mongoose";
-export interface IProduct extends Document {
+
+export interface ISession extends Document {
   exercise: string;
   weight: string;
   reps: string;
@@ -9,7 +10,7 @@ export interface IProduct extends Document {
   templateId?: Types.ObjectId;
 }
 
-const productSchema: Schema = new mongoose.Schema(
+const schema: Schema = new mongoose.Schema(
   {
     exercise: {
       type: String,
@@ -39,7 +40,7 @@ const productSchema: Schema = new mongoose.Schema(
   }
 );
 
-const Product =
-  mongoose.models.Product || mongoose.model<IProduct>("Product", productSchema);
+const Session =
+  mongoose.models.Session || mongoose.model<ISession>("Session", schema);
 
-export default Product;
+export default Session;

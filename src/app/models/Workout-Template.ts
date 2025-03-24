@@ -20,7 +20,7 @@ const schema: Schema = new mongoose.Schema(
     description: {
       String,
     },
-    sessions: [{ type: Schema.Types.ObjectId, ref: "Product" }],
+    sessions: [{ type: Schema.Types.ObjectId, ref: "Session" }],
   },
   {
     timestamps: {
