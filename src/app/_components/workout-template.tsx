@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
-import { RootState } from "@/app/_types/types";
-import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { useAppDispatch } from "@/redux/store";
 import { Radio } from "@material-tailwind/react";
 import { update } from "@/redux/slices/workout-template-choiceSlice";
 
@@ -9,7 +8,6 @@ const tableHeaders = ["Template Title"];
 
 const Template: React.FC = () => {
   const dispatch = useAppDispatch();
-  const choice = useAppSelector((state: RootState) => state.tempChoice);
 
   const templates = [
     {

@@ -23,8 +23,6 @@ const RecordSession: React.FC = () => {
 
   useEffect(() => {
     setSessionTemplateId(new ObjectId());
-    console.log(sessionTemplateId);
-    console.log(sessionTemplateId.toString());
   }, [sessionDate]);
 
   const clearEntries = () => {

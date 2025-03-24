@@ -18,7 +18,6 @@ interface Option {
   
   interface OptionSelectorProps {
     options: Option[];
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     handler: (option: Option) => any;
   }
 

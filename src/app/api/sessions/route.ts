@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
       date: {
         $eq: date,
       },
-    });sessions
+    });
     return NextResponse.json(sessions);
   } catch (err) {
     if (err instanceof Error) {

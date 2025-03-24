@@ -1,7 +1,6 @@
-"use client";
 import { updateSelection } from "@/redux/slices/skillLiftSelectionSlice";
 import OptionSelector from "./option-selector";
-import { exercises } from "../_labels/exercises";
+import { exercises } from '../_labels/exercises';
 
 
 export default function AccessoryLiftSelector() {

@@ -114,4 +114,4 @@ export const exercises = [{
     "id": 28,
     "name": "Hanging leg raise",
     "video": "https://vimeo.com/39560703"
-}]
+}];

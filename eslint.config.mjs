@@ -1,16 +1,53 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
 import { FlatCompat } from "@eslint/eslintrc";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
 const compat = new FlatCompat({
-  baseDirectory: __dirname,
+  // import.meta.dirname is available after Node.js v20.11.0
+  baseDirectory: import.meta.dirname,
 });
-
 const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
-];
+  {
+    ignores: [
+      ".config/",
+      "dist/",
+      "tsconfig.json",
+      "node_modules", // Ignore specific files and directories
+      "**/node_modules/**",
+      ".next/**",
+      "out/**",
+      "build/**",
+      "dist/**",
 
+      // Ignore specific file types
+      "**/*.d.ts",
+      "**/*.config.js",
+      "**/*.config.mjs",
+
+      // Ignore specific patterns
+      "**/.*",
+      "**/*.log",
+
+      // Next.js specific ignores
+      ".vercel/**",
+      ".turbo/**",
+    ],
+  },
+  ...compat.config({
+    extends: ["next", "prettier", "next/core-web-vitals"],
+    rules: {
+      semi: ["error"],
+      "prefer-const": "error",
+      "react/react-in-jsx-scope": "off",
+      "react/no-unescaped-entities": "off",
+      "@next/next/no-page-custom-font": "off",
+      // Custom rules if needed
+      "no-unused-vars": [
+        "warn",
+        {
+          varsIgnorePattern: "^__turbopack",
+          argsIgnorePattern: "^__turbopack",
+        },
+      ],
+    },
+  }),
+];
 export default eslintConfig;

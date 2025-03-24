@@ -44,14 +44,10 @@ const SessionForm: React.FC = () => {
       }
     }
   };
-  const saveAsTemplate = async () => {
-    const url = "http://localhost:3000/api/workout-templates";
-  }
-
 
   return (
     <>
-    <Header />
+      <Header />
       <div className="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-100">
         <div>
           <RecordSession />

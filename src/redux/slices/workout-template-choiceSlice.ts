@@ -8,7 +8,7 @@ const workoutTempChoiceSlice = createSlice({
   initialState,
   reducers: {
     update: (state, action: PayloadAction<string>) => {
-      return state = action.payload
+      return state = action.payload;
     }
   },
 });
