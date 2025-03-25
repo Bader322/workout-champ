@@ -1,11 +1,11 @@
-import type { Metadata } from "next";
-import "./globals.css";
-import Providers  from "@/redux/provider";
+import type { Metadata } from 'next';
+import './globals.css';
+import Providers  from '@/redux/provider';
 
 
 export const metadata: Metadata = {
-  title: "Workout Tracker",
-  description: "Workout Tracker App with no ads",
+  title: 'Workout Tracker',
+  description: 'Workout Tracker App with no ads',
 };
 
 export default function RootLayout({
@@ -14,7 +14,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang='en'>
       <body
         className={`antialiased`}
       >

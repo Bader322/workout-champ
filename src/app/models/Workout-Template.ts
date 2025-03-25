@@ -4,7 +4,7 @@
 //  One template can have many sessions
 //  One session can belong to one template
 
-import mongoose, { Document, Schema, Types } from "mongoose";
+import mongoose, { Document, Schema, Types } from 'mongoose';
 
 export interface ITemplate extends Document {
   title?: string;
@@ -20,17 +20,17 @@ const schema: Schema = new mongoose.Schema(
     description: {
       String,
     },
-    sessions: [{ type: Schema.Types.ObjectId, ref: "Session" }],
+    sessions: [{ type: Schema.Types.ObjectId, ref: 'Session' }],
   },
   {
     timestamps: {
-      createdAt: "created_at",
-      updatedAt: "updated_at",
+      createdAt: 'created_at',
+      updatedAt: 'updated_at',
     },
   }
 );
 
 const Template =
-  mongoose.models.Template || mongoose.model<ITemplate>("Template", schema);
+  mongoose.models.Template || mongoose.model<ITemplate>('Template', schema);
 
 export default Template;

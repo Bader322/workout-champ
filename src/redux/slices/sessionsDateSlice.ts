@@ -1,10 +1,10 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 
 const initialState: string = '';
 
 const sessionDateSlice = createSlice({
-  name: "sessionDate",
+  name: 'sessionDate',
   initialState,
   reducers: {
     update: (state, action: PayloadAction<string>) => state = action.payload,

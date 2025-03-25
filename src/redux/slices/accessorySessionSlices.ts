@@ -1,12 +1,12 @@
-import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import { session } from "../../app/_types/types";
-import axios from "axios";
+import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
+import { session } from '../../app/_types/types';
+import axios from 'axios';
 
 export const getSessionList = createAsyncThunk(
-  "sessions/getSessionList",
+  'sessions/getSessionList',
   async (date: string) => {
     try {
-      const res = await axios.get("http://localhost:3000/api/sessions", {
+      const res = await axios.get('http://localhost:3000/api/sessions', {
         params: {
           date,
         },
@@ -22,7 +22,7 @@ export const getSessionList = createAsyncThunk(
 const initialState: session[] = [];
 
 const accessorySessionSlices = createSlice({
-  name: "sessions",
+  name: 'sessions',
   initialState,
   reducers: {
     addSession: (state, action: PayloadAction<session>) => {

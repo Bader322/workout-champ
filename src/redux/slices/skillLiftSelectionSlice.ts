@@ -1,14 +1,14 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { SkillLiftSelection } from "../../app/_types/types";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { SkillLiftSelection } from '../../app/_types/types';
 
 
 const initialState : SkillLiftSelection = {
   id: 0,
-  name: "Lift/Exercise",
+  name: 'Lift/Exercise',
 };
 
 const skillLiftSelectionSlice = createSlice({
-  name: "skillLiftSelection",
+  name: 'skillLiftSelection',
   initialState,
   reducers: {
     updateSelection: (state, action: PayloadAction<SkillLiftSelection>) => {

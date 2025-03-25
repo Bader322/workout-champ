@@ -1,10 +1,10 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 
 const initialState: string = '';
 
 const workoutTempChoiceSlice = createSlice({
-  name: "tempChoice",
+  name: 'tempChoice',
   initialState,
   reducers: {
     update: (state, action: PayloadAction<string>) => {

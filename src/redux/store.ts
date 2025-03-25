@@ -1,6 +1,6 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import sessionsSlice from "./slices/accessorySessionSlices";
+import { configureStore } from '@reduxjs/toolkit';
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import sessionsSlice from './slices/accessorySessionSlices';
 import skillLiftSelectionSlice from './slices/skillLiftSelectionSlice';
 import sessionDateSlice from './slices/sessionsDateSlice';
 import tempChoiceSlice from './slices/workout-template-choiceSlice';

@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema, Types } from "mongoose";
+import mongoose, { Document, Schema, Types } from 'mongoose';
 
 export interface ISession extends Document {
   exercise: string;
@@ -30,17 +30,17 @@ const schema: Schema = new mongoose.Schema(
     date: {
       type: String,
     },
-    templateId: { type: Schema.Types.ObjectId, ref: "Template" },
+    templateId: { type: Schema.Types.ObjectId, ref: 'Template' },
   },
   {
     timestamps: {
-      createdAt: "created_at",
-      updatedAt: "updated_at",
+      createdAt: 'created_at',
+      updatedAt: 'updated_at',
     },
   }
 );
 
 const Session =
-  mongoose.models.Session || mongoose.model<ISession>("Session", schema);
+  mongoose.models.Session || mongoose.model<ISession>('Session', schema);
 
 export default Session;

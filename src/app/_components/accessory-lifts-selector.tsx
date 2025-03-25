@@ -1,5 +1,5 @@
-import { updateSelection } from "@/redux/slices/skillLiftSelectionSlice";
-import OptionSelector from "./option-selector";
+import { updateSelection } from '@/redux/slices/skillLiftSelectionSlice';
+import OptionSelector from './option-selector';
 import { exercises } from '../_labels/exercises';
 
 

@@ -34,6 +34,18 @@ const eslintConfig = [
   ...compat.config({
     extends: ["next", "prettier", "next/core-web-vitals"],
     rules: {
+      // Quote-related rules
+      quotes: [
+        "error",
+        "single",
+        {
+          avoidEscape: true,
+          allowTemplateLiterals: true,
+        },
+      ],
+
+      // Additional quote-related configuration
+      "jsx-quotes": ["error", "prefer-single"],
       semi: ["error"],
       "prefer-const": "error",
       "react/react-in-jsx-scope": "off",
