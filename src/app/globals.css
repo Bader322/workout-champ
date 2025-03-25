@@ -10,3 +10,26 @@
 #datePicker {
     max-width: 12rem;
 }
+
+#datePicker div.inline-block.rounded-lg.bg-white.p-4.shadow-lg {
+    background-color: #f7f8f9;
+}
+#datePicker div.mb-2.flex.justify-between > button, #datePicker div.mb-2.flex.justify-between, button.block.flex-1.cursor-pointer.rounded-lg.border-0.text-center.text-sm.font-semibold.leading-9.bg-cyan-700.text-white{
+    background-color: #b7bdcc;
+}
+#datePicker button.flex-1.cursor-pointer.rounded-lg.border-0.text-center.text-sm.font-semibold.leading-9.text-gray-900:hover{
+    
+    background-color: #ced5e5;
+    /* #b7bdcc; */
+}
+#datePicker div.mb-2.flex.justify-between {
+    border-radius: 0.5rem;
+}
+
+#datePicker div.mt-2.flex.space-x-2 > button.w-full.rounded-lg.px-5.py-2.text-center.text-sm.font-medium:first-child {
+    background-color: #898e99;
+}
+#datePicker div.mt-2.flex.space-x-2 > button.w-full.rounded-lg.px-5.py-2.text-center.text-sm.font-medium:first-child:hover {
+    /* background-color: #b7bdcc; */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); 
+}

@@ -18,6 +18,7 @@ interface Option {
   
   interface OptionSelectorProps {
     options: Option[];
+    // eslint-disable-next-line no-unused-vars
     handler: (option: Option) => any;
   }
 

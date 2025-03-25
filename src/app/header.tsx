@@ -1,3 +1,4 @@
+'use client';
 import { Datepicker } from 'flowbite-react';
 import { useAppDispatch } from '@/redux/store';
 import {
@@ -28,9 +29,9 @@ const Header: React.FC = () => {
   return (
     <div
       id='header'
-      className='flex justify-between items-center p-4 text-white'
+      className='relative z-10 flex justify-between items-center p-4 text-white'
     >
-      <div id='datePicker'>
+      <div id='datePicker' className='relative z-20'>
         <Datepicker
           onChange={(date: Date | null) => {
             if (!date) {
@@ -41,8 +42,8 @@ const Header: React.FC = () => {
           }}
         />
       </div>
-      <div>
-        <Modal showModalBtnText={'Show Templates'}/>
+      <div className='relative z-30'>
+        <Modal showModalBtnText={'Show Templates'} />
       </div>
     </div>
   );
