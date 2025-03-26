@@ -41,7 +41,8 @@ const RecordSession: React.FC = () => {
       sets: sets,
       volume: sessionVolume,
       date: sessionDate,
-      templateId: sessionTemplateId.toString()
+      templateId: sessionTemplateId.toString(),
+      markForRemoval: false,
     };
     dispatch(addSession(newSession));
     clearEntries();

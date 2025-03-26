@@ -14,6 +14,7 @@ export interface session {
   volume: number;
   date: string;
   templateId: string;
+  markForRemoval?: boolean;
 }
 
 export interface SkillLiftSelection {
