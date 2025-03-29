@@ -25,7 +25,7 @@ const schema: Schema = new mongoose.Schema(
       type: String,
     },
     volume: {
-      type: String,
+      type: Number,
     },
     date: {
       type: String,

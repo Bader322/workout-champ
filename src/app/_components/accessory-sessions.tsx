@@ -1,6 +1,6 @@
 'use client';
 import { RootState } from '@/app/_types/types';
-import React, { useState } from 'react';
+import React from 'react';
 import { X, Undo } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { markForRemoval } from '@/redux/slices/accessorySessionSlices';

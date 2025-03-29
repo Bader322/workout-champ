@@ -15,6 +15,8 @@ export interface session {
   date: string;
   templateId: string;
   markForRemoval?: boolean;
+  err?: string
+  
 }
 
 export interface SkillLiftSelection {
@@ -27,4 +29,9 @@ export interface template {
   title: string;
   description: string;
   sessions: session[];
+}
+
+export interface tempChoice {
+  _id: string;
+  disabledActionBtn: boolean;
 }

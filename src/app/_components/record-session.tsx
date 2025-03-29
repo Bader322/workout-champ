@@ -14,16 +14,12 @@ const RecordSession: React.FC = () => {
   const [sessionVolume, setSessionVolume] = useState<number>(0);
   const sessionDate = useAppSelector((state) => state.sessionDate);
   const exercise = useAppSelector((state) => state.skillLiftSelection.name);
-  const [sessionTemplateId, setSessionTemplateId] = useState<ObjectId>(new ObjectId());
+  const templateId = useAppSelector((state) => state.sessions.find((session) => session.templateId)?.templateId) || new ObjectId().toString();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     setSessionVolume(weight * reps * sets);
   }, [weight, reps, sets]);
-
-  useEffect(() => {
-    setSessionTemplateId(new ObjectId());
-  }, [sessionDate]);
 
   const clearEntries = () => {
     setWeight(0);
@@ -41,7 +37,7 @@ const RecordSession: React.FC = () => {
       sets: sets,
       volume: sessionVolume,
       date: sessionDate,
-      templateId: sessionTemplateId.toString(),
+      templateId: templateId,
       markForRemoval: false,
     };
     dispatch(addSession(newSession));
@@ -56,7 +52,7 @@ const RecordSession: React.FC = () => {
             <tr className='bg-indigo-100'>
               <th className='px-6 py-4 first:pl-8 last:pr-8' colSpan={6}>
                 <div className='flex items-center gap-2 text-sm font-semibold text-gray-900'>
-                  Accessory Session(s)
+                  Add Accessory Session
                 </div>
               </th>
             </tr>
@@ -72,7 +68,7 @@ const RecordSession: React.FC = () => {
                   className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
                   // required
                   placeholder='Weight'
-                  min={1}
+                  // min={1}
                   value={weight}
                   onChange={(e) => {
                     setWeight(parseInt(e.target.value));

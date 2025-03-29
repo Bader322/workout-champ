@@ -2,7 +2,7 @@
 import React from 'react';
 import { useAppDispatch } from '@/redux/store';
 import { Radio } from '@material-tailwind/react';
-import { update } from '@/redux/slices/workout-template-choiceSlice';
+import { selectTemplate } from '@/redux/slices/workout-template-choiceSlice';
 
 const tableHeaders = ['Template Title'];
 
@@ -11,53 +11,53 @@ const Template: React.FC = () => {
 
   const templates = [
     {
-      _id: 'ObjectId1',
-      title: 'Temp Name1',
-      description: 'string',
-      exercises: [
+      _id: {
+        $oid: '67e70f9af009e2425bc3ea13',
+      },
+      title: 'Untitled Template1',
+      description: 'No description provided 1',
+      sessions: [
         {
-          _id: 'ObjectId',
-          name: 'string;',
-          description: 'string;',
-          sets: [
-            {
-              _id: 'ObjectId',
-              reps: 'reps',
-              weight: 'weight',
-              time: 'time',
-              distance: 'distance',
-              rest: 'rest',
-            },
-          ],
+          $oid: 'sessions11',
+        },
+        {
+          $oid: 'sessions12',
         },
       ],
+      created_at: {
+        $date: '2025-03-28T21:07:55.478Z',
+      },
+      updated_at: {
+        $date: '2025-03-28T21:08:37.774Z',
+      },
+      __v: 0,
     },
     {
-      _id: 'ObjectId2',
-      title: 'Temp Name2',
-      description: 'string',
-      exercises: [
+      _id: {
+        $oid: '1234',
+      },
+      title: 'Untitled Template 2',
+      description: 'No description provided 2',
+      sessions: [
         {
-          _id: 'ObjectId',
-          name: 'string;',
-          description: 'string;',
-          sets: [
-            {
-              _id: 'ObjectId',
-              reps: 'ObjectId',
-              weight: 'ObjectId',
-              time: 'ObjectId',
-              distance: 'ObjectId',
-              rest: 'ObjectId',
-            },
-          ],
+          $oid: 'sessions21',
+        },
+        {
+          $oid: 'sessions22',
         },
       ],
+      created_at: {
+        $date: '2025-03-28T21:07:55.478Z',
+      },
+      updated_at: {
+        $date: '2025-03-28T21:08:37.774Z',
+      },
+      __v: 0,
     },
   ];
 
   return (
-    <div className='overflow-x-auto'>
+    <div className='overflow-x-auto rounded-lg shadow-2xl'>
       <table className='w-full min-w-full table-auto'>
         <thead>
           <tr className='bg-indigo-300/100'>
@@ -80,10 +80,10 @@ const Template: React.FC = () => {
                 <Radio
                   name='type'
                   label={t.title}
-                  value={t._id}
+                  value={t._id.$oid}
                   onClick={(event) => {
                     const target = event.target as HTMLInputElement;
-                    dispatch(update(target.value));
+                    dispatch(selectTemplate({_id: target.value, disabledActionBtn: false}));
                   }}
                 />
               </td>

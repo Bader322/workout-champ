@@ -1,30 +1,26 @@
 'use client';
 import { RootState } from '@/app/_types/types';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useAppSelector, useAppDispatch } from '@/redux/store';
 import { Save } from 'lucide-react';
-import { saveSessions } from '@/redux/slices/accessorySessionSlices';
+import {
+  saveSessions,
+  deleteSession,
+} from '@/redux/slices/accessorySessionSlices';
 
 const Footer: React.FC = () => {
-  const [dayVolume, setDayVolume] = useState<number>(0);
-  const sessions = useAppSelector((state: RootState) => state.sessions) || [];
-  const sessionDate = useAppSelector((state: RootState) => state.sessionDate);
-
   const dispatch = useAppDispatch();
-
-  const getTodaysVolume = () =>
-    sessions
-      .filter((session) => session.markForRemoval === false)
-      .map((s) => s.weight * s.reps * s.sets)
-      .reduce((acc, item) => (acc += item), 0);
-
-  useEffect(() => {
-    setDayVolume(getTodaysVolume());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sessions, sessionDate]);
+  const sessions = useAppSelector((state: RootState) => state.sessions) || [];
+  const dayVolume = useAppSelector((state: RootState) =>
+    state.sessions.map((s) => s.volume).reduce((acc, item) => (acc += item), 0)
+  );
+  const ObjIdsToDelete = sessions
+    .map((session) => (session.markForRemoval === true ? session._id : ''))
+    .filter((id) => !!id);
 
   const handleSave = async () => {
-    dispatch(saveSessions(sessions));
+    await dispatch(saveSessions(sessions)).unwrap();
+    await dispatch(deleteSession(ObjIdsToDelete)).unwrap();
   };
 
   return (
@@ -36,7 +32,7 @@ const Footer: React.FC = () => {
           </p>
           <button onClick={handleSave} className='flex items-center gap-2'>
             <Save className='cursor-pointer text-green-600' />
-            <span className='text-green-600'>Save as template</span>
+            <span className='text-green-600'>Save Changes</span>
           </button>
         </div>
       )}

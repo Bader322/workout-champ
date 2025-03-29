@@ -7,18 +7,20 @@
 import mongoose, { Document, Schema, Types } from 'mongoose';
 
 export interface ITemplate extends Document {
-  title?: string;
-  description?: string;
+  title: string;
+  description: string;
   sessions: Types.ObjectId[];
 }
 
 const schema: Schema = new mongoose.Schema(
   {
     title: {
-      String,
+      type: String,
+      required: true,
     },
     description: {
-      String,
+      type: String,
+      required: true,
     },
     sessions: [{ type: Schema.Types.ObjectId, ref: 'Session' }],
   },

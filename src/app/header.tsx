@@ -8,6 +8,7 @@ import {
 import Modal from './_components/modal';
 import { update } from '@/redux/slices/sessionsDateSlice';
 import { useEffect } from 'react';
+import Template from './_components/workout-template';
 
 const Header: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -43,7 +44,7 @@ const Header: React.FC = () => {
         />
       </div>
       <div className='relative z-30'>
-        <Modal showModalBtnText={'Show Templates'} />
+        <Modal showModalBtnText={'Show Templates'} Template={Template}  />
       </div>
     </div>
   );

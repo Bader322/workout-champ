@@ -1,17 +1,23 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { tempChoice } from '@/app/_types/types';
 
-
-const initialState: string = '';
+const initialState : tempChoice = {
+  _id: '',
+  disabledActionBtn: true,
+};
 
 const workoutTempChoiceSlice = createSlice({
   name: 'tempChoice',
   initialState,
   reducers: {
-    update: (state, action: PayloadAction<string>) => {
-      return state = action.payload;
+    selectTemplate: (state, action: PayloadAction<tempChoice>) => {
+      return state = {
+       _id: action.payload._id,
+        disabledActionBtn: action.payload.disabledActionBtn,
+      };
     }
   },
 });
 
-export const { update } = workoutTempChoiceSlice.actions;
+export const { selectTemplate } = workoutTempChoiceSlice.actions;
 export default workoutTempChoiceSlice.reducer;

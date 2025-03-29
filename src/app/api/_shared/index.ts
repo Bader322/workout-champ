@@ -1,10 +1,5 @@
 import { session } from '@/app/_types/types';
 import { ObjectId } from 'bson';
-import _ from 'lodash';
-
-export const isArray = (input: []) => {
-  return _.isArray(input);
-};
 
 export const createMissingObjIds = (data: session[]) => {
   data.forEach((datum) => {
