@@ -5,12 +5,20 @@ import { useAppSelector, useAppDispatch } from '@/redux/store';
 import { Save } from 'lucide-react';
 import {
   saveSessions,
-  deleteSession,
+  deleteSessions,
 } from '@/redux/slices/accessorySessionSlices';
 
 const Footer: React.FC = () => {
   const dispatch = useAppDispatch();
-  const sessions = useAppSelector((state: RootState) => state.sessions) || [];
+  const sessions = useAppSelector((state: RootState) => state.sessions);
+  const sessionDate = useAppSelector((state) => state.sessionDate);
+  const sessionsToSave = useAppSelector((state: RootState) =>
+    state.sessions).filter((session) => !session.markForRemoval).map((s) => {
+      return {
+        ...s,
+        date: sessionDate,
+      };
+    });
   const dayVolume = useAppSelector((state: RootState) =>
     state.sessions.map((s) => s.volume).reduce((acc, item) => (acc += item), 0)
   );
@@ -19,8 +27,17 @@ const Footer: React.FC = () => {
     .filter((id) => !!id);
 
   const handleSave = async () => {
-    await dispatch(saveSessions(sessions)).unwrap();
-    await dispatch(deleteSession(ObjIdsToDelete)).unwrap();
+    if (sessionsToSave.length === 0) {
+      await dispatch(deleteSessions(ObjIdsToDelete)).unwrap();
+    }
+    else if (ObjIdsToDelete.length === 0) {
+      await dispatch(saveSessions(sessionsToSave)).unwrap();
+    }
+    else {
+      await dispatch(deleteSessions(ObjIdsToDelete)).unwrap();
+      await dispatch(saveSessions(sessionsToSave)).unwrap();
+    }
+    
   };
 
   return (
@@ -34,6 +51,11 @@ const Footer: React.FC = () => {
             <Save className='cursor-pointer text-green-600' />
             <span className='text-green-600'>Save Changes</span>
           </button>
+
+          {/* <button onClick={handleSave} className='flex items-center gap-2'>
+            <Save className='cursor-pointer text-green-600' />
+            <span className='text-green-600'>Save Changes - As a new template</span>
+          </button> */}
         </div>
       )}
     </>

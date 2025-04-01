@@ -4,6 +4,7 @@ import sessionsSlice from './slices/accessorySessionSlices';
 import skillLiftSelectionSlice from './slices/skillLiftSelectionSlice';
 import sessionDateSlice from './slices/sessionsDateSlice';
 import tempChoiceSlice from './slices/workout-template-choiceSlice';
+import workoutTempSlice from './slices/workout-templateSlice';
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
     skillLiftSelection: skillLiftSelectionSlice,
     sessionDate: sessionDateSlice,
     tempChoice: tempChoiceSlice,
+    workoutTemplates: workoutTempSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

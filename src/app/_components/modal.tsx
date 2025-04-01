@@ -8,6 +8,13 @@ import {
 } from '@material-tailwind/react';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { selectTemplate } from '@/redux/slices/workout-template-choiceSlice';
+import { getTemplates } from '@/redux/slices/workout-templateSlice';
+import { clearTemplates } from '@/redux/slices/workout-templateSlice';
+import {
+  getSessionList,
+  clearAllSessions,
+  getSessionsByTemplateId,
+} from '@/redux/slices/accessorySessionSlices';
 
 type ModalProps = {
   showModalBtnText: string;
@@ -15,8 +22,9 @@ type ModalProps = {
 };
 
 const Modal: React.FC<ModalProps> = ({ showModalBtnText, Template }) => {
-  const dateSelected = useAppSelector((state) => state.sessionDate);
   const dispatch = useAppDispatch();
+  const dateSelected = useAppSelector((state) => state.sessionDate);
+  const selectedTemplateId = useAppSelector((state) => state.tempChoice._id);
   const disabledBtn = useAppSelector(
     (state) => state.tempChoice.disabledActionBtn
   );
@@ -27,26 +35,30 @@ const Modal: React.FC<ModalProps> = ({ showModalBtnText, Template }) => {
   useEffect(() => {
     if (!open) {
       dispatch(selectTemplate({ _id: '', disabledActionBtn: true }));
+      setTimeout(() => dispatch(clearTemplates()), 500);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
   return (
     <>
       <Button
-        onClick={handleOpen}
+        onClick={() => {
+          handleOpen();
+          dispatch(getTemplates());
+        }}
         className='bg-indigo-100 text-black font-semibold'
       >
         {showModalBtnText}
       </Button>
       <Dialog open={open} handler={handleOpen} className='rounded-xl'>
         <DialogBody>
-          <Template />
+          <Template/>
         </DialogBody>
         <DialogFooter>
           <Button
             variant='text'
             color='red'
-            onClick={() => handleOpen()}
+            onClick={handleOpen}
             className='mr-1'
           >
             <span>Go Back</span>
@@ -54,7 +66,11 @@ const Modal: React.FC<ModalProps> = ({ showModalBtnText, Template }) => {
           <Button
             variant='gradient'
             color='green'
-            onClick={handleOpen}
+            onClick={() => {
+              handleOpen();
+              dispatch(clearAllSessions());
+              dispatch(getSessionsByTemplateId(selectedTemplateId));
+            }}
             disabled={disabledBtn}
           >
             <span>Apply to {dateSelected}</span>

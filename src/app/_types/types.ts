@@ -2,7 +2,7 @@ export interface RootState {
   sessions: session[];
   skillLiftSelection?: SkillLiftSelection;
   sessionDate?: string;
-  tempChoice: string;
+  tempChoice: tempChoice;
 }
 
 export interface session {
@@ -13,7 +13,7 @@ export interface session {
   sets: number;
   volume: number;
   date: string;
-  templateId: string;
+  templateId?: string;
   markForRemoval?: boolean;
   err?: string
   
@@ -28,7 +28,7 @@ export interface template {
   _id: string;
   title: string;
   description: string;
-  sessions: session[];
+  sessions: string[];
 }
 
 export interface tempChoice {

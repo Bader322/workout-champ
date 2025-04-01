@@ -58,43 +58,43 @@ export async function POST(req: NextRequest) {
     createMissingObjIds(data);
 
     // Determine template ID
-    // const templateId: string =
-    //   _.first(data)?.templateId || new ObjectId().toString();
+    const templateId: string =
+      _.first(data)?.templateId || new ObjectId().toString();
 
     // Validate template ID
-    // if (!ObjectId.isValid(templateId)) {
-    //   return NextResponse.json(
-    //     { message: 'Invalid template ID' },
-    //     { status: 400 }
-    //   );
-    // }
+    if (!ObjectId.isValid(templateId)) {
+      return NextResponse.json(
+        { message: 'Invalid template ID' },
+        { status: 400 }
+      );
+    }
 
     // Find or create template
-    // let template;
-    // const existingTemplate = await Template.findOne({ _id: templateId });
+    let template;
+    const existingTemplate = await Template.findOne({ _id: templateId });
 
-    // if (existingTemplate) {
-    //   // Improved template creation with more robust input handling
-    //   // Update template with session IDs
-    //   await Template.findByIdAndUpdate(
-    //     templateId,
-    //     {
-    //       sessions: data
-    //         .filter((datum) => !datum.markForRemoval)
-    //         .map((d) => d._id),
-    //     },
-    //     { new: true, runValidators: true }
-    //   );
-    // } else {
-    //   const templateData = prepareTemplate(
-    //     templateId,
-    //     'Untitled Template',
-    //     'No description provided',
-    //     data
-    //   );
-    //   template = await Template.create(templateData);
-    //   template = existingTemplate;
-    // }
+    if (existingTemplate) {
+      // Improved template creation with more robust input handling
+      // Update template with session IDs
+      await Template.findByIdAndUpdate(
+        templateId,
+        {
+          sessions: data
+            .filter((datum) => !datum.markForRemoval)
+            .map((d) => d._id),
+        },
+        { new: true, runValidators: true }
+      );
+    } else {
+      const templateData = prepareTemplate(
+        templateId,
+        'Untitled Template',
+        'No description provided',
+        data
+      );
+      template = await Template.create(templateData);
+      template = existingTemplate;
+    }
 
     // Find existing sessions to avoid duplicates
     const existingIds = new Set(
@@ -120,7 +120,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         message: 'Data processed successfully',
-        // template: template,
+        template: template,
         new_sessions: createdSessions,
         total_sessions_processed: data.length,
         total_new_sessions: createdSessions.length,
@@ -176,9 +176,9 @@ export async function DELETE(req: NextRequest) {
       return NextResponse.json(
         {
           message: `No documents found to delete`,
-          _id: _id,
+          ids: _id,
         },
-        { status: 200 }
+        { status: 404 }
       );
     }
 

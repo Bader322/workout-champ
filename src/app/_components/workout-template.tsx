@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { useAppDispatch } from '@/redux/store';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { Radio } from '@material-tailwind/react';
 import { selectTemplate } from '@/redux/slices/workout-template-choiceSlice';
 
@@ -8,53 +8,7 @@ const tableHeaders = ['Template Title'];
 
 const Template: React.FC = () => {
   const dispatch = useAppDispatch();
-
-  const templates = [
-    {
-      _id: {
-        $oid: '67e70f9af009e2425bc3ea13',
-      },
-      title: 'Untitled Template1',
-      description: 'No description provided 1',
-      sessions: [
-        {
-          $oid: 'sessions11',
-        },
-        {
-          $oid: 'sessions12',
-        },
-      ],
-      created_at: {
-        $date: '2025-03-28T21:07:55.478Z',
-      },
-      updated_at: {
-        $date: '2025-03-28T21:08:37.774Z',
-      },
-      __v: 0,
-    },
-    {
-      _id: {
-        $oid: '1234',
-      },
-      title: 'Untitled Template 2',
-      description: 'No description provided 2',
-      sessions: [
-        {
-          $oid: 'sessions21',
-        },
-        {
-          $oid: 'sessions22',
-        },
-      ],
-      created_at: {
-        $date: '2025-03-28T21:07:55.478Z',
-      },
-      updated_at: {
-        $date: '2025-03-28T21:08:37.774Z',
-      },
-      __v: 0,
-    },
-  ];
+  const templates = useAppSelector((state) => state.workoutTemplates);
 
   return (
     <div className='overflow-x-auto rounded-lg shadow-2xl'>
@@ -80,7 +34,7 @@ const Template: React.FC = () => {
                 <Radio
                   name='type'
                   label={t.title}
-                  value={t._id.$oid}
+                  value={t._id}
                   onClick={(event) => {
                     const target = event.target as HTMLInputElement;
                     dispatch(selectTemplate({_id: target.value, disabledActionBtn: false}));

@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { session } from '../../app/_types/types';
 import axios from 'axios';
-
+import { ObjectId } from 'bson';
+// change name to getSessionListByDate
 export const getSessionList = createAsyncThunk(
   'sessions/getSessionList',
   async (date: string) => {
@@ -11,6 +12,26 @@ export const getSessionList = createAsyncThunk(
           date,
         },
       });
+      const result = res.data;
+      return result;
+    } catch (err) {
+      throw err;
+    }
+  }
+);
+
+export const getSessionsByTemplateId = createAsyncThunk(
+  'sessions/getSessionsByTemplateId',
+  async (_id: string) => {
+    try {
+      const res = await axios.get(
+        'http://localhost:3000/api/workout-templates',
+        {
+          params: {
+            _id,
+          },
+        }
+      );
       const result = res.data;
       return result;
     } catch (err) {
@@ -39,9 +60,29 @@ export const saveSessions = createAsyncThunk(
     }
   }
 );
+export const saveSessionsWithTemplate = createAsyncThunk(
+  'sessions/saveSessionsWithTemplate',
+  async (sessions: session[]) => {
+    try {
+      const res = await axios.post(
+        'http://localhost:3000/api/workout-templates/sessions',
+        sessions
+      );
+      return res.data;
+    } catch (err) {
+      if (err instanceof Error) {
+        return console.error({
+          error: err.message,
+        });
+      } else {
+        console.error('An unknown error occurred:', err);
+      }
+    }
+  }
+);
 
-export const deleteSession = createAsyncThunk(
-  'sessions/deleteSession',
+export const deleteSessions = createAsyncThunk(
+  'sessions/deleteSessions',
   async (_ids: string[], { rejectWithValue }) => {
     try {
       const results = await Promise.all(
@@ -112,15 +153,14 @@ const accessorySessionSlices = createSlice({
     builder.addCase(getSessionList.fulfilled, (state, { payload }) => {
       state.push(...payload);
     });
-    builder.addCase(deleteSession.pending, () => {});
-    builder.addCase(deleteSession.fulfilled, (state, { payload }) => {
+    builder.addCase(deleteSessions.pending, () => {});
+    builder.addCase(deleteSessions.fulfilled, (state, { payload }) => {
       state = state.filter((session) => {
         return !payload.some((p) => p._id === session._id);
       });
       return state;
     });
-    builder.addCase(deleteSession.rejected, (state ) => {
-      console.error('an error ocurred with deleteSession.rejected');
+    builder.addCase(deleteSessions.rejected, (state) => {
       return state;
     });
     builder.addCase(saveSessions.pending, () => {});
@@ -128,6 +168,27 @@ const accessorySessionSlices = createSlice({
       state = payload.all_data;
       return state;
     });
+    builder.addCase(saveSessions.rejected, (state, { payload }) => {});
+    builder.addCase(getSessionsByTemplateId.pending, () => {});
+    builder.addCase(
+      getSessionsByTemplateId.fulfilled,
+      (state, action: PayloadAction<session[]>) => {
+        const sessions = action.payload.map((p) => {
+          return {
+            ...p,
+            _id: new ObjectId().toString(),
+          };
+        });
+        state.push(...sessions);
+      }
+    );
+    builder.addCase(saveSessionsWithTemplate.pending, () => {});
+    builder.addCase(
+      saveSessionsWithTemplate.fulfilled,
+      (state, { payload }) => {
+        state.push(...payload);
+      }
+    );
   },
 });
 
