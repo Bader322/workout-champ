@@ -11,7 +11,6 @@ import { selectTemplate } from '@/redux/slices/workout-template-choiceSlice';
 import { getTemplates } from '@/redux/slices/workout-templateSlice';
 import { clearTemplates } from '@/redux/slices/workout-templateSlice';
 import {
-  getSessionList,
   clearAllSessions,
   getSessionsByTemplateId,
 } from '@/redux/slices/accessorySessionSlices';

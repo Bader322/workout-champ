@@ -60,8 +60,8 @@ export const saveSessions = createAsyncThunk(
     }
   }
 );
-export const saveSessionsWithTemplate = createAsyncThunk(
-  'sessions/saveSessionsWithTemplate',
+export const saveSessionsAsTemplate = createAsyncThunk(
+  'sessions/saveSessionsAsTemplate',
   async (sessions: session[]) => {
     try {
       const res = await axios.post(
@@ -182,11 +182,12 @@ const accessorySessionSlices = createSlice({
         state.push(...sessions);
       }
     );
-    builder.addCase(saveSessionsWithTemplate.pending, () => {});
+    builder.addCase(saveSessionsAsTemplate.pending, () => {});
     builder.addCase(
-      saveSessionsWithTemplate.fulfilled,
+      saveSessionsAsTemplate.fulfilled,
       (state, { payload }) => {
-        state.push(...payload);
+        state = payload.all_data;
+        return state;
       }
     );
   },

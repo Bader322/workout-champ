@@ -111,9 +111,7 @@ export async function POST(req: NextRequest) {
     // Bulk create new sessions if any
     let createdSessions = [];
     if (newSessions.length > 0) {
-      createdSessions = await Session.insertMany(newSessions, {
-        ordered: false,
-      });
+      createdSessions = await Session.insertMany(newSessions);
     }
 
     // Prepare response

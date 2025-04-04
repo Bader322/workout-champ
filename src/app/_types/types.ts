@@ -1,3 +1,5 @@
+export const NO_TEMPLATE_SESSION = '67ddeb18a32e9ac6df434f11';
+
 export interface RootState {
   sessions: session[];
   skillLiftSelection?: SkillLiftSelection;

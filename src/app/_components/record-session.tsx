@@ -1,5 +1,5 @@
 'use client';
-import { session } from '@/app/_types/types';
+import { session, NO_TEMPLATE_SESSION } from '@/app/_types/types';
 import { X, Check } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import React, { useEffect, useState } from 'react';
@@ -14,7 +14,7 @@ const RecordSession: React.FC = () => {
   const [sessionVolume, setSessionVolume] = useState<number>(0);
   const sessionDate = useAppSelector((state) => state.sessionDate);
   const exercise = useAppSelector((state) => state.skillLiftSelection.name);
-  const templateId = useAppSelector((state) => state.sessions.find((session) => session.templateId)?.templateId) || new ObjectId().toString();
+  const templateId = useAppSelector((state) => state.sessions?.find((session) => session.templateId)?.templateId) || NO_TEMPLATE_SESSION;
   const dispatch = useAppDispatch();
 
   useEffect(() => {
